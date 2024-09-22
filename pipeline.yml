@@ -17,6 +17,6 @@ stages:
 
     - script: |
         terraform --version
-        terraform init 
+        terraform init  -backend-config="storage_account_name=acatfstorage" -backend-config="container_name=tfconfig" -backend-config="key=terraform.tfconfig" -backend-config="access_key=$(accessKey)"
         terraform plan -out=tfplan
       displayName: 'Terraform Init and Plan'
