@@ -1,1 +1,70 @@
+trigger:
+  - none
 
+pool:
+  name: Default
+
+parameters:
+  - name: TENANT
+    displayName: TENANT
+    type: string
+    default: DEVRFT
+    values:
+      - DEVRFT
+      - QARFT
+      - PRRFT
+      - ALL
+
+steps:
+
+  # - task: Bash@3
+  #   displayName: 'Set read only git token from tfvars'
+  #   inputs:
+  #     targetType: 'inline'
+  #     script: |
+  #       set -euxo pipefail
+  #       pat=$(cat pipeline.tfvars | grep -oP 'devops_user_pat = "\K[^"]+')
+  #       auth=$(echo -n ":$pat" | openssl base64 | tr -d '\n')
+  #       git config --global http.extraHeader "Authorization: Basic $auth"
+
+  # Terraform Install
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@1
+    displayName: install terraform
+    inputs:
+        terraformVersion: 0.12.31
+
+  # DEVRFT --
+  - task: AzureCLI@2
+    displayName: "Set TF Variables"
+    condition: or(eq('${{ parameters.TENANT }}', 'ALL'),eq('${{ parameters.TENANT }}', 'DEVRFT'))
+    continueOnError: false
+    inputs:
+      azureSubscription: 'MCAPS-Support-REQ-79844-2024-ajoubert(e30ed3f0-4b47-4f89-bad0-4648a0ef5616)'
+      scriptType: "bash"
+      scriptLocation: "inlineScript"
+      inlineScript: |
+        SUBSCRIPTION_ID=$(az account show --query 'id' --output tsv)
+
+        export ARM_CLIENT_ID=${ARM_CLIENT_ID:-$servicePrincipalId}
+        export ARM_CLIENT_SECRET=${ARM_CLIENT_SECRET:-$servicePrincipalKey}
+        export ARM_TENANT_ID=${ARM_TENANT_ID:-$tenantId}
+        export ARM_SUBSCRIPTION_ID=${ARM_SUBSCRIPTION_ID:-$SUBSCRIPTION_ID}
+      addSpnToEnvironment: true
+      workingDirectory: "$(System.DefaultWorkingDirectory)/DEVRFT"
+
+  - task: AzureCLI@2
+    displayName: "DEVRFT:TF Initalize"
+    condition: or(eq('${{ parameters.TENANT }}', 'ALL'),eq('${{ parameters.TENANT }}', 'DEVRFT'))
+    continueOnError: false
+    inputs:
+      azureSubscription: 'MCAPS-Support-REQ-79844-2024-ajoubert(e30ed3f0-4b47-4f89-bad0-4648a0ef5616)'
+      scriptType: "bash"
+      scriptLocation: "inlineScript"
+      inlineScript: |
+        export ARM_SUBSCRIPTION_ID=${ARM_SUBSCRIPTION_ID:-$SUBSCRIPTION_ID}
+        export ARM_CLIENT_ID=${ARM_CLIENT_ID:-$servicePrincipalId}
+        export ARM_CLIENT_SECRET=${ARM_CLIENT_SECRET:-$servicePrincipalKey}
+        export ARM_TENANT_ID=${ARM_TENANT_ID:-$tenantId}
+        terraform init 
+      addSpnToEnvironment: true
+      workingDirectory: "$(System.DefaultWorkingDirectory)/DEVRFT"
