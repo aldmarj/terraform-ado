@@ -24,4 +24,6 @@ steps:
         export ARM_CLIENT_ID=$(clientid)
         export ARM_CLIENT_SECRET=$(clientsecret)
         export ARM_TENANT_ID=$(tenantid)
-        terraform init 
+        terraform init -input=false
+        terraform plan -out=tfplan
+      addSpnToEnvironment: true
