@@ -19,4 +19,8 @@ steps:
       scriptType: "bash"
       scriptLocation: "inlineScript"
       inlineScript: |
-        terraform init -backend-config="access_key=$(accessKey)"
+        export ARM_SUBSCRIPTION_ID=$(subscriptionid)
+        export ARM_CLIENT_ID=$(clientid)
+        export ARM_CLIENT_SECRET=$(clientsecret)
+        export ARM_TENANT_ID=$(tenantid)
+        terraform init 
