@@ -23,6 +23,4 @@ steps:
         export ARM_CLIENT_ID=${ARM_CLIENT_ID:-$servicePrincipalId}
         export ARM_CLIENT_SECRET=${ARM_CLIENT_SECRET:-$servicePrincipalKey}
         export ARM_TENANT_ID=${ARM_TENANT_ID:-$tenantId}
-        terraform init 
-      addSpnToEnvironment: true
-      workingDirectory: "$(System.DefaultWorkingDirectory)/DEVRFT"
+        terraform init
