@@ -12,10 +12,9 @@ steps:
       terraformVersion: 0.12.31
         
 - task: AzureCLI@2
-    displayName: "DEVRFT:TF Initalize"
-    condition: or(eq('${{ parameters.TENANT }}', 'ALL'),eq('${{ parameters.TENANT }}', 'DEVRFT'))
-    continueOnError: false
-    inputs:
+  displayName: "DEVRFT:TF Initalize"
+  continueOnError: false
+  inputs:
       azureSubscription: 'MCAPS-Support-REQ-79844-2024-ajoubert(e30ed3f0-4b47-4f89-bad0-4648a0ef5616)'
       scriptType: "bash"
       scriptLocation: "inlineScript"
