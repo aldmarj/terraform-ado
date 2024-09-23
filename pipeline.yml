@@ -19,6 +19,7 @@ steps:
       scriptType: "bash"
       scriptLocation: "inlineScript"
       inlineScript: |
+        export TF_LOG="TRACE"
         export ARM_SUBSCRIPTION_ID=$(subscriptionid)
         export ARM_CLIENT_ID=$(clientid)
         export ARM_CLIENT_SECRET=$(clientsecret)
