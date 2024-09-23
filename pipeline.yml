@@ -20,4 +20,4 @@ steps:
       scriptLocation: "inlineScript"
       inlineScript: |
         az login
-        terraform init
+        terraform init -backend-config="access_key=$(accessKey)"
