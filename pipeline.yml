@@ -9,7 +9,7 @@ steps:
 - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
   displayName: install terraform
   inputs:
-      terraformVersion: 0.12.31
+      terraformVersion: 0.15.5
         
 - task: AzureCLI@2
   displayName: "DEVRFT:TF Initalize"
