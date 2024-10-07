@@ -15,7 +15,7 @@ steps:
   displayName: "DEVRFT:TF Initalize"
   continueOnError: false
   inputs:
-      azureSubscription: 'MCAPS-Support-REQ-79844-2024-ajoubert(e30ed3f0-4b47-4f89-bad0-4648a0ef5616)'
+      azureSubscription: 'aca-tf-sc-2'
       scriptType: "bash"
       scriptLocation: "inlineScript"
       inlineScript: |
